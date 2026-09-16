@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Larp Wallet – Choose skin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: Inter, system-ui, sans-serif;
+      background: #0a0a0c;
+      color: #fff;
+      padding: 24px;
+    }
+    h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+    p { color: #8b8b9a; font-size: 0.9rem; margin-bottom: 32px; text-align: center; }
+    .grid { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 320px; }
+    a {
+      display: block;
+      padding: 16px 20px;
+      border-radius: 16px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      text-align: center;
+      transition: transform 0.12s;
+    }
+    a:active { transform: scale(0.98); }
+    .phantom { background: #AB9FF2; color: #0d0d0f; }
+    .trust { background: #4B8BFF; color: #fff; }
+    .paypal { background: #0070ba; color: #fff; }
+  </style>
+</head>
+<body>
+  <h1>Larp Wallet</h1>
+  <p>Pick a skin · same balances across all</p>
+  <div class="grid">
+    <a class="phantom" href="index.html">Phantom</a>
+    <a class="trust" href="trust.html">Trust Wallet</a>
+    <a class="paypal" href="paypal.html">PayPal</a>
+  </div>
+</body>
+</html>
