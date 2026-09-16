@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>PayPal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/paypal.css" />
+  <link rel="stylesheet" href="css/skeletons.css" />
+</head>
+<body class="paypal-skin overflow-hidden">
+  <div id="status-bar" class="status-bar flex justify-between items-center px-5 pt-[max(0.5rem,env(safe-area-inset-top))] pb-1 text-[13px] font-semibold select-none">
+    <span id="status-time">9:41</span>
+    <div class="flex items-center gap-1.5">
+      <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 2.4c2.1 0 4 .9 5.4 2.4l-1.5 1.2A5.5 5.5 0 008 4.2c-1.5 0-2.9.6-3.9 1.6L2.6 4.8A7.5 7.5 0 018 2.4zM8 0c3.3 0 6.3 1.4 8.4 3.7l-1.5 1.2A9.5 9.5 0 008 1.7 9.5 9.5 0 001.1 4.9L-.4 3.7A11.5 11.5 0 018 0zm0 4.8c1.2 0 2.3.5 3.1 1.3L8 9.3 4.9 6.1A4.3 4.3 0 018 4.8z"/></svg>
+      <div class="flex items-center ml-0.5">
+        <div class="w-[22px] h-[11px] border-[1.5px] border-current rounded-[3px] relative p-[1.5px]">
+          <div class="battery-fill h-full bg-current rounded-[1px]" style="width:80%"></div>
+        </div>
+        <div class="w-[1.5px] h-[4px] bg-current/70 rounded-r-sm ml-[1px]"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-shell relative mx-auto max-w-md h-[100dvh] flex flex-col bg-[#f5f7fa]">
+    <!-- Header -->
+    <header class="flex items-center justify-between px-4 pt-2 pb-3 bg-white">
+      <button id="btn-pp-profile" class="w-10 h-10 rounded-full bg-gradient-to-br from-[#0070ba] to-[#003087] flex items-center justify-center text-white font-semibold text-[14px] active:scale-95 transition">
+        <span id="pp-avatar-initials">AM</span>
+      </button>
+      <div class="flex items-center gap-1">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="#0070ba"><path d="M7.076 21.337H2.47a.641.641 0 01-.633-.74L4.944 3.72a.77.77 0 01.76-.653h6.73c2.195 0 3.77.644 4.557 1.864.74 1.144.74 2.66-.01 4.53-.79 1.96-2.32 3.28-4.42 3.82l-.02.005c-.2.05-.41.08-.62.08h-2.15l-.9 4.39a.64.64 0 01-.63.52H7.076z"/></svg>
+        <span class="text-[18px] font-bold text-[#001c64] tracking-tight">PayPal</span>
+      </div>
+      <button id="btn-pp-settings" class="w-10 h-10 rounded-full bg-[#f0f2f5] flex items-center justify-center active:scale-95 transition">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#001c64" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      </button>
+    </header>
+
+    <!-- HOME -->
+    <main id="pp-home" class="flex-1 overflow-y-auto px-4 pb-28 pp-screen-enter">
+      <!-- Balance -->
+      <section class="text-center pt-3 pb-5">
+        <p class="text-[13px] text-[#6b7c93] font-medium mb-1">PayPal balance</p>
+        <h1 id="pp-balance" class="text-[40px] font-bold tracking-tight text-[#001c64] leading-none">$0.00</h1>
+        <button id="btn-pp-edit-balance" class="mt-2 text-[13px] font-medium text-[#0070ba]">Edit balance</button>
+      </section>
+
+      <!-- Actions -->
+      <div class="flex justify-center gap-6 mb-6">
+        <button class="pp-action" data-action="send">
+          <div class="pp-action-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+          <span>Send</span>
+        </button>
+        <button class="pp-action" data-action="request">
+          <div class="pp-action-icon" style="background:#003087">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
+          </div>
+          <span>Request</span>
+        </button>
+        <button class="pp-action" data-action="add">
+          <div class="pp-action-icon" style="background:#009cde">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          </div>
+          <span>Add money</span>
+        </button>
+        <button class="pp-action" data-action="more">
+          <div class="pp-action-icon" style="background:#6b7c93">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+          </div>
+          <span>More</span>
+        </button>
+      </div>
+
+      <!-- Balance card -->
+      <div class="pp-card p-4 mb-5 flex items-center justify-between">
+        <div>
+          <p class="text-[12px] text-[#6b7c93] mb-0.5">Available</p>
+          <p id="pp-available" class="text-[18px] font-semibold text-[#001c64]">$0.00</p>
+        </div>
+        <div class="text-right">
+          <p class="text-[12px] text-[#6b7c93] mb-0.5">Total</p>
+          <p id="pp-total" class="text-[18px] font-semibold text-[#001c64]">$0.00</p>
+        </div>
+      </div>
+
+      <!-- Activity -->
+      <div class="flex items-center justify-between mb-2">
+        <h2 class="text-[16px] font-semibold text-[#001c64]">Activity</h2>
+        <button id="btn-pp-edit-activity" class="text-[13px] font-medium text-[#0070ba]">Edit</button>
+      </div>
+      <div id="pp-activity-list" class="pp-card px-3 mb-4"></div>
+    </main>
+
+    <!-- SEND SCREEN -->
+    <div id="pp-send-screen" class="hidden flex-1 overflow-y-auto px-4 pb-28 bg-white pp-screen-enter">
+      <div class="flex items-center gap-3 py-3">
+        <button id="btn-pp-back-send" class="w-9 h-9 rounded-full bg-[#f0f2f5] flex items-center justify-center">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#001c64" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <h2 class="text-[20px] font-bold text-[#001c64]">Send</h2>
+      </div>
+      <div class="space-y-4 mt-4">
+        <div>
+          <label class="text-[13px] text-[#6b7c93] mb-1.5 block">To</label>
+          <input id="pp-send-to" type="text" placeholder="Name, email, or mobile" class="w-full rounded-xl px-4 py-3.5 text-[16px]" />
+        </div>
+        <div>
+          <label class="text-[13px] text-[#6b7c93] mb-1.5 block">Amount</label>
+          <div class="relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[20px] font-semibold text-[#001c64]">$</span>
+            <input id="pp-send-amount" type="number" step="0.01" min="0" placeholder="0.00" class="w-full rounded-xl pl-9 pr-4 py-3.5 text-[24px] font-semibold" />
+          </div>
+          <p id="pp-send-hint" class="text-[12px] text-[#6b7c93] mt-1.5">Available: —</p>
+        </div>
+        <div>
+          <label class="text-[13px] text-[#6b7c93] mb-1.5 block">Note (optional)</label>
+          <input id="pp-send-note" type="text" placeholder="What's this for?" class="w-full rounded-xl px-4 py-3.5 text-[15px]" />
+        </div>
+        <button id="btn-pp-confirm-send" class="w-full mt-6 py-4 rounded-full bg-[#0070ba] text-white font-semibold text-[16px] active:scale-[0.98] transition">Send</button>
+      </div>
+    </div>
+
+    <!-- REQUEST SCREEN -->
+    <div id="pp-request-screen" class="hidden flex-1 overflow-y-auto px-4 pb-28 bg-white pp-screen-enter">
+      <div class="flex items-center gap-3 py-3">
+        <button id="btn-pp-back-request" class="w-9 h-9 rounded-full bg-[#f0f2f5] flex items-center justify-center">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#001c64" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <h2 class="text-[20px] font-bold text-[#001c64]">Request</h2>
+      </div>
+      <div class="space-y-4 mt-4">
+        <div>
+          <label class="text-[13px] text-[#6b7c93] mb-1.5 block">From</label>
+          <input id="pp-request-from" type="text" placeholder="Name, email, or mobile" class="w-full rounded-xl px-4 py-3.5 text-[16px]" />
+        </div>
+        <div>
+          <label class="text-[13px] text-[#6b7c93] mb-1.5 block">Amount</label>
+          <div class="relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[20px] font-semibold text-[#001c64]">$</span>
+            <input id="pp-request-amount" type="number" step="0.01" min="0" placeholder="0.00" class="w-full rounded-xl pl-9 pr-4 py-3.5 text-[24px] font-semibold" />
+          </div>
+        </div>
+        <div>
+          <label class="text-[13px] text-[#6b7c93] mb-1.5 block">Note (optional)</label>
+          <input id="pp-request-note" type="text" placeholder="What's this for?" class="w-full rounded-xl px-4 py-3.5 text-[15px]" />
+        </div>
+        <button id="btn-pp-confirm-request" class="w-full mt-6 py-4 rounded-full bg-[#0070ba] text-white font-semibold text-[16px] active:scale-[0.98] transition">Request</button>
+      </div>
+    </div>
+
+    <!-- ADD MONEY SCREEN -->
+    <div id="pp-add-screen" class="hidden flex-1 overflow-y-auto px-4 pb-28 bg-white pp-screen-enter">
+      <div class="flex items-center gap-3 py-3">
+        <button id="btn-pp-back-add" class="w-9 h-9 rounded-full bg-[#f0f2f5] flex items-center justify-center">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#001c64" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <h2 class="text-[20px] font-bold text-[#001c64]">Add money</h2>
+      </div>
+      <div class="space-y-4 mt-4">
+        <div>
+          <label class="text-[13px] text-[#6b7c93] mb-1.5 block">Amount</label>
+          <div class="relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[20px] font-semibold text-[#001c64]">$</span>
+            <input id="pp-add-amount" type="number" step="0.01" min="0" placeholder="0.00" class="w-full rounded-xl pl-9 pr-4 py-3.5 text-[24px] font-semibold" />
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <button class="pp-add-quick flex-1 py-2.5 rounded-xl border border-[#e5e9ef] text-[14px] font-medium" data-usd="50">$50</button>
+          <button class="pp-add-quick flex-1 py-2.5 rounded-xl border border-[#e5e9ef] text-[14px] font-medium" data-usd="100">$100</button>
+          <button class="pp-add-quick flex-1 py-2.5 rounded-xl border border-[#e5e9ef] text-[14px] font-medium" data-usd="250">$250</button>
+          <button class="pp-add-quick flex-1 py-2.5 rounded-xl border border-[#e5e9ef] text-[14px] font-medium" data-usd="500">$500</button>
+        </div>
+        <div class="pp-card p-4 flex items-center gap-3">
+          <div class="w-10 h-7 rounded bg-gradient-to-r from-blue-600 to-blue-400 flex items-center justify-center text-[10px] font-bold text-white">VISA</div>
+          <div class="flex-1">
+            <p class="text-[15px] font-medium text-[#001c64]">•••• 4242</p>
+            <p class="text-[12px] text-[#6b7c93]">Bank or card</p>
+          </div>
+        </div>
+        <button id="btn-pp-confirm-add" class="w-full mt-4 py-4 rounded-full bg-[#0070ba] text-white font-semibold text-[16px] active:scale-[0.98] transition">Add money</button>
+      </div>
+    </div>
+
+    <!-- Bottom nav -->
+    <nav class="pp-nav absolute bottom-0 left-0 right-0 px-1 pt-1.5 pb-[calc(0.5rem+env(safe-area-inset-bottom))]">
+      <div class="flex justify-around items-center max-w-md mx-auto">
+        <button class="pp-nav-item active" data-tab="home">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          <span>Home</span>
+        </button>
+        <button class="pp-nav-item" data-tab="finances">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+          <span>Finances</span>
+        </button>
+        <button class="pp-nav-item" data-tab="payments">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          <span>Payments</span>
+        </button>
+        <button class="pp-nav-item" data-tab="inbox">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
+          <span>Inbox</span>
+        </button>
+        <button class="pp-nav-item" data-tab="me">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Me</span>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Edit Balance Modal -->
+  <div id="pp-modal-edit" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/40" id="pp-edit-backdrop"></div>
+    <div class="absolute bottom-0 left-0 right-0 max-w-md mx-auto bg-white rounded-t-3xl pp-sheet">
+      <div class="flex items-center justify-between px-5 pt-5 pb-3">
+        <h3 class="text-[18px] font-semibold text-[#001c64]">Edit balances</h3>
+        <button id="btn-pp-close-edit" class="w-8 h-8 rounded-full bg-[#f0f2f5] flex items-center justify-center text-[#001c64]">✕</button>
+      </div>
+      <div class="px-5 pb-6 space-y-4">
+        <div>
+          <label class="text-[13px] text-[#6b7c93] mb-1 block">Available balance</label>
+          <input id="pp-edit-available" type="number" step="0.01" class="w-full rounded-xl px-4 py-3 text-[16px]" />
+        </div>
+        <div>
+          <label class="text-[13px] text-[#6b7c93] mb-1 block">Total balance</label>
+          <input id="pp-edit-total" type="number" step="0.01" class="w-full rounded-xl px-4 py-3 text-[16px]" />
+        </div>
+        <button id="btn-pp-save-balance" class="w-full py-3.5 rounded-full bg-[#0070ba] text-white font-semibold text-[16px]">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Activity Editor -->
+  <div id="pp-modal-activity" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/40" id="pp-activity-backdrop"></div>
+    <div class="absolute bottom-0 left-0 right-0 max-w-md mx-auto bg-white rounded-t-3xl max-h-[85dvh] flex flex-col pp-sheet">
+      <div class="flex items-center justify-between px-5 pt-5 pb-3">
+        <h3 class="text-[18px] font-semibold text-[#001c64]">Edit activity</h3>
+        <button id="btn-pp-close-activity" class="w-8 h-8 rounded-full bg-[#f0f2f5] flex items-center justify-center text-[#001c64]">✕</button>
+      </div>
+      <div class="px-5 pb-3 space-y-2 border-b border-[#e5e9ef]">
+        <div class="grid grid-cols-2 gap-2">
+          <select id="pp-hist-type" class="rounded-xl px-3 py-2.5 text-[14px]">
+            <option value="received">Received</option>
+            <option value="sent">Sent</option>
+          </select>
+          <input id="pp-hist-title" placeholder="Title" class="rounded-xl px-3 py-2.5 text-[14px]" />
+        </div>
+        <input id="pp-hist-amount" type="number" step="0.01" placeholder="Amount (+ or -)" class="w-full rounded-xl px-3 py-2.5 text-[14px]" />
+        <button id="btn-pp-add-activity" class="w-full py-2.5 rounded-full bg-[#0070ba] text-white font-semibold text-[14px]">Add entry</button>
+      </div>
+      <div id="pp-activity-edit-list" class="flex-1 overflow-y-auto px-5 py-3"></div>
+    </div>
+  </div>
+
+  <!-- Settings -->
+  <div id="pp-modal-settings" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/40" id="pp-settings-backdrop"></div>
+    <div class="absolute bottom-0 left-0 right-0 max-w-md mx-auto bg-white rounded-t-3xl max-h-[70dvh] pp-sheet">
+      <div class="flex items-center justify-between px-5 pt-5 pb-3">
+        <h3 class="text-[18px] font-semibold text-[#001c64]">Settings</h3>
+        <button id="btn-pp-close-settings" class="w-8 h-8 rounded-full bg-[#f0f2f5] flex items-center justify-center text-[#001c64]">✕</button>
+      </div>
+      <div class="px-5 pb-8 space-y-1">
+        <a class='block w-full text-left px-4 py-3.5 rounded-xl hover:bg-[#f0f2f5] transition text-[#001c64]' href='/'>← Switch to Phantom</a>
+        <a class='block w-full text-left px-4 py-3.5 rounded-xl hover:bg-[#f0f2f5] transition text-[#001c64]' href='/trust'>← Switch to Trust Wallet</a>
+        <button id="btn-pp-reset" class="w-full text-left px-4 py-3.5 rounded-xl hover:bg-[#f0f2f5] transition text-[#001c64]">Reset balances</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/balances.js"></script>
+  <script src="js/skeletons.js"></script>
+  <script src="js/paypal.js"></script>
+</body>
+</html>

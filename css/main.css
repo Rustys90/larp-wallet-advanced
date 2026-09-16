@@ -1,0 +1,201 @@
+/* Main shared styles */
+* {
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overscroll-behavior: none;
+}
+
+.app-shell {
+  min-height: 100dvh;
+}
+
+.status-bar {
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Smooth scroll */
+#main-content {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+#main-content::-webkit-scrollbar {
+  display: none;
+}
+
+/* Animations */
+@keyframes slide-up {
+  from { transform: translateY(100%); opacity: 0.8; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.animate-slide-up {
+  animation: slide-up 0.32s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fade-in {
+  animation: fade-in 0.2s ease forwards;
+}
+
+/* Nav active state */
+.nav-item.active {
+  color: #AB9FF2;
+}
+.nav-item.active svg {
+  fill: #AB9FF2;
+  stroke: #AB9FF2;
+}
+
+/* Token row */
+.token-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 10px;
+  border-radius: 16px;
+  transition: background 0.15s ease;
+}
+.token-row:active {
+  background: #1c1c21;
+}
+
+.token-logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #2a2a30;
+}
+
+.token-info {
+  flex: 1;
+  min-width: 0;
+}
+.token-symbol {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.token-name {
+  font-size: 13px;
+  color: #8b8b9a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.token-values {
+  text-align: right;
+}
+.token-usd {
+  font-size: 15px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.token-change {
+  font-size: 13px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.token-change.positive { color: #22c55e; }
+.token-change.negative { color: #ef4444; }
+
+/* Edit inputs */
+.edit-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #2a2a30;
+}
+.edit-row:last-child {
+  border-bottom: none;
+}
+.edit-input {
+  flex: 1;
+  background: #1c1c21;
+  border: 1px solid #2a2a30;
+  border-radius: 12px;
+  padding: 10px 12px;
+  color: #fff;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  outline: none;
+}
+.edit-input:focus {
+  border-color: #AB9FF2;
+}
+
+/* Safe area */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .app-shell {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Activity rows */
+.activity-row:active {
+  background: #1c1c21;
+  border-radius: 12px;
+}
+
+/* Inputs */
+input, select {
+  color: #fff;
+  font-family: inherit;
+}
+input::placeholder {
+  color: #8b8b9a;
+}
+
+/* Shared polish – interaction + motion */
+button, .action-btn, .trust-action-item, .pp-action {
+  -webkit-user-select: none;
+  user-select: none;
+}
+.action-btn:active .w-14,
+.fab-action:active {
+  transform: scale(0.92);
+}
+#btn-fab, #btn-confirm-send, #btn-confirm-trade, #btn-confirm-buy {
+  transition: transform 0.12s ease, opacity 0.15s;
+}
+#btn-fab:active, #btn-confirm-send:active, #btn-confirm-trade:active, #btn-confirm-buy:active {
+  transform: scale(0.97);
+}
+
+/* Screen transitions */
+#send-screen, #receive-screen, #trade-screen, #buy-screen,
+#trust-send-screen, #trust-receive-screen, #trust-swap-screen, #trust-buy-screen {
+  animation: fadeSlideIn 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Focus visible for a11y */
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 2px solid #AB9FF2;
+  outline-offset: 2px;
+}
+.trust-skin button:focus-visible,
+.trust-skin input:focus-visible {
+  outline-color: #4B8BFF;
+}
+.paypal-skin button:focus-visible,
+.paypal-skin input:focus-visible {
+  outline-color: #0070ba;
+}
+
+/* Toast base */
+#toast {
+  will-change: opacity;
+}

@@ -1,0 +1,144 @@
+/* PayPal skin – light, accurate mobile feel */
+.paypal-skin {
+  --pp-blue: #0070ba;
+  --pp-blue-dark: #003087;
+  --pp-blue-bright: #009cde;
+  --pp-bg: #f5f7fa;
+  --pp-surface: #ffffff;
+  --pp-border: #e5e9ef;
+  --pp-text: #001c64;
+  --pp-muted: #6b7c93;
+  --pp-green: #0d7a4f;
+  --pp-red: #d32f2f;
+  background: var(--pp-bg);
+  color: var(--pp-text);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.paypal-skin .status-bar {
+  color: var(--pp-text);
+  background: var(--pp-surface);
+}
+
+.pp-card {
+  background: var(--pp-surface);
+  border-radius: 16px;
+  border: 1px solid var(--pp-border);
+  box-shadow: 0 1px 3px rgba(0, 28, 100, 0.04);
+}
+
+.pp-btn-primary {
+  background: var(--pp-blue);
+  color: #fff;
+  border-radius: 9999px;
+  font-weight: 600;
+  transition: background 0.15s, transform 0.1s;
+}
+.pp-btn-primary:active {
+  background: var(--pp-blue-dark);
+  transform: scale(0.98);
+}
+
+.pp-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  padding: 4px;
+  transition: transform 0.12s;
+}
+.pp-action:active { transform: scale(0.94); }
+.pp-action-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--pp-blue);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 112, 186, 0.25);
+}
+.pp-action span {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--pp-text);
+}
+
+.pp-activity-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 4px;
+  border-bottom: 1px solid var(--pp-border);
+  transition: background 0.12s;
+}
+.pp-activity-row:last-child { border-bottom: none; }
+.pp-activity-row:active { background: #eef2f7; border-radius: 12px; }
+
+.pp-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0070ba, #003087);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.pp-nav {
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid var(--pp-border);
+}
+.pp-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 12px;
+  color: var(--pp-muted);
+  font-size: 10px;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+.pp-nav-item.active {
+  color: var(--pp-blue);
+}
+
+/* Inputs on light */
+.paypal-skin input,
+.paypal-skin select {
+  color: var(--pp-text);
+  background: var(--pp-surface);
+  border: 1px solid var(--pp-border);
+}
+.paypal-skin input:focus,
+.paypal-skin select:focus {
+  border-color: var(--pp-blue);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 112, 186, 0.15);
+}
+.paypal-skin input::placeholder {
+  color: var(--pp-muted);
+}
+
+/* Smooth screen enter */
+.pp-screen-enter {
+  animation: ppFadeUp 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes ppFadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Bottom sheet */
+.pp-sheet {
+  animation: slide-up 0.32s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+}

@@ -1,0 +1,104 @@
+/* Trust Wallet skin – navy / blue */
+:root {
+  --tw-bg: #0f111a;
+  --tw-surface: #161926;
+  --tw-card: #1c2030;
+  --tw-border: #2a2f42;
+  --tw-blue: #3375BB;
+  --tw-blue-bright: #4B8BFF;
+  --tw-text: #FFFFFF;
+  --tw-muted: #8b92a8;
+  --tw-green: #22c55e;
+  --tw-red: #ef4444;
+}
+
+.trust-skin {
+  background: var(--tw-bg);
+  color: var(--tw-text);
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+}
+
+.trust-skin .status-bar {
+  color: var(--tw-text);
+}
+
+.trust-card {
+  background: var(--tw-card);
+  border: 1px solid var(--tw-border);
+  border-radius: 16px;
+}
+
+.trust-btn-primary {
+  background: var(--tw-blue-bright);
+  color: #fff;
+  border-radius: 9999px;
+  font-weight: 600;
+}
+
+.trust-btn-secondary {
+  background: var(--tw-card);
+  border: 1px solid var(--tw-border);
+  border-radius: 9999px;
+  color: var(--tw-text);
+}
+
+.trust-token-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--tw-border);
+}
+
+.trust-token-row:last-child {
+  border-bottom: none;
+}
+
+.trust-nav {
+  background: rgba(15, 17, 26, 0.95);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--tw-border);
+}
+
+.trust-nav-item.active {
+  color: var(--tw-blue-bright);
+}
+
+.trust-pill {
+  background: var(--tw-card);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.trust-action-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.trust-action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 4px;
+  background: var(--tw-card);
+  border-radius: 16px;
+  border: 1px solid var(--tw-border);
+  font-size: 11px;
+  font-weight: 500;
+  text-align: center;
+  transition: transform 0.15s;
+}
+
+.trust-action-item:active {
+  transform: scale(0.96);
+}
+
+.trust-action-item svg,
+.trust-action-item img {
+  width: 24px;
+  height: 24px;
+}

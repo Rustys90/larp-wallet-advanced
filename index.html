@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0d0d0f" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Larp Wallet – Phantom</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="assets/icons/phantom-ghost.svg" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            phantom: {
+              bg: '#0d0d0f', surface: '#16161a', card: '#1c1c21', border: '#2a2a30',
+              purple: '#AB9FF2', purpleDark: '#3C315B', lavender: '#E2DFFE',
+              text: '#FFFFFF', muted: '#8b8b9a', green: '#22c55e', red: '#ef4444',
+            }
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/phantom.css" />
+  <link rel="stylesheet" href="css/skeletons.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body class="bg-phantom-bg text-phantom-text font-sans antialiased overflow-hidden">
+  <div id="status-bar" class="status-bar flex justify-between items-center px-5 pt-[max(0.6rem,env(safe-area-inset-top))] pb-1 text-[13px] font-semibold select-none tracking-tight">
+    <span id="status-time">9:41</span>
+    <div class="flex items-center gap-1.5">
+      <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 2.4c2.1 0 4 .9 5.4 2.4l-1.5 1.2A5.5 5.5 0 008 4.2c-1.5 0-2.9.6-3.9 1.6L2.6 4.8A7.5 7.5 0 018 2.4zM8 0c3.3 0 6.3 1.4 8.4 3.7l-1.5 1.2A9.5 9.5 0 008 1.7 9.5 9.5 0 001.1 4.9L-.4 3.7A11.5 11.5 0 018 0zm0 4.8c1.2 0 2.3.5 3.1 1.3L8 9.3 4.9 6.1A4.3 4.3 0 018 4.8z"/></svg>
+      <div class="flex items-center ml-0.5">
+        <div class="w-[22px] h-[11px] border-[1.5px] border-white/90 rounded-[3px] relative p-[1.5px]">
+          <div class="battery-fill h-full bg-white rounded-[1px]" style="width:72%"></div>
+        </div>
+        <div class="w-[1.5px] h-[4px] bg-white/70 rounded-r-sm ml-[1px]"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="app" class="app-shell relative mx-auto max-w-md h-[100dvh] flex flex-col">
+    <header class="flex items-center gap-2 px-3 pt-2 pb-2 shrink-0 overflow-x-auto no-scrollbar">
+      <button id="btn-profile" class="w-9 h-9 rounded-full bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center shrink-0 active:scale-95 transition">
+        <span class="text-[13px] font-bold text-white">A1</span>
+      </button>
+      <div class="flex items-center gap-1.5 flex-1 min-w-0">
+        <button class="top-tab active px-4 py-1.5 rounded-full text-[14px] font-semibold bg-phantom-purple text-phantom-bg shrink-0" data-tab="home">Home</button>
+        <button class="top-tab px-4 py-1.5 rounded-full text-[14px] font-medium text-phantom-muted shrink-0" data-tab="trade">Trade</button>
+        <button class="top-tab px-4 py-1.5 rounded-full text-[14px] font-medium text-phantom-muted shrink-0" data-tab="predict">Predict</button>
+        <button class="top-tab px-4 py-1.5 rounded-full text-[14px] font-medium text-phantom-muted shrink-0" data-tab="explore">Explore</button>
+      </div>
+      <button id="btn-settings" class="w-8 h-8 rounded-full bg-phantom-card border border-phantom-border flex items-center justify-center shrink-0">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      </button>
+    </header>
+
+    <main id="main-content" class="flex-1 overflow-y-auto overflow-x-hidden px-4 pb-32">
+      <section class="text-center pt-4 pb-5">
+        <p class="text-phantom-muted text-[13px] font-medium mb-1">Total Balance</p>
+        <h1 id="total-balance" class="text-[40px] font-bold tracking-tight leading-none">$0.00</h1>
+        <div id="total-change" class="mt-2 inline-flex items-center gap-1 text-[14px] font-medium text-phantom-green"><span>+$0.00 (0.00%)</span></div>
+      </section>
+      <section class="flex justify-center gap-5 mb-7">
+        <button class="action-btn flex flex-col items-center gap-2 active:scale-95 transition" data-action="receive">
+          <div class="w-14 h-14 rounded-full bg-phantom-purple flex items-center justify-center text-phantom-bg shadow-[0_0_24px_rgba(171,159,242,0.35)]">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
+          </div>
+          <span class="text-[13px] font-medium">Receive</span>
+        </button>
+        <button class="action-btn flex flex-col items-center gap-2 active:scale-95 transition" data-action="send">
+          <div class="w-14 h-14 rounded-full bg-phantom-card border border-phantom-border flex items-center justify-center">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+          <span class="text-[13px] font-medium">Send</span>
+        </button>
+        <button class="action-btn flex flex-col items-center gap-2 active:scale-95 transition" data-action="swap">
+          <div class="w-14 h-14 rounded-full bg-phantom-card border border-phantom-border flex items-center justify-center">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>
+          </div>
+          <span class="text-[13px] font-medium">Swap</span>
+        </button>
+        <button class="action-btn flex flex-col items-center gap-2 active:scale-95 transition" data-action="buy">
+          <div class="w-14 h-14 rounded-full bg-phantom-card border border-phantom-border flex items-center justify-center">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          </div>
+          <span class="text-[13px] font-medium">Buy</span>
+        </button>
+      </section>
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-[17px] font-semibold">Tokens</h2>
+        <button id="btn-edit-balances" class="text-[13px] font-medium text-phantom-purple">Edit</button>
+      </div>
+      <div id="token-list"></div>
+      <button id="btn-add-token" class="w-full mt-4 py-3.5 rounded-2xl border border-dashed border-phantom-border text-phantom-muted text-[14px] font-medium flex items-center justify-center gap-2">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> Add Token
+      </button>
+    </main>
+
+    <div id="activity-screen" class="hidden flex-1 overflow-y-auto px-4 pb-32">
+      <div class="flex items-center justify-between py-3">
+        <h2 class="text-[20px] font-bold">Activity</h2>
+        <button id="btn-edit-history-from-activity" class="text-[13px] font-medium text-phantom-purple">Edit History</button>
+      </div>
+      <div id="activity-list"></div>
+    </div>
+
+    <div id="send-screen" class="hidden flex-1 overflow-y-auto px-4 pb-32">
+      <div class="flex items-center gap-3 py-3">
+        <button id="btn-back-send" class="w-9 h-9 rounded-full bg-phantom-card border border-phantom-border flex items-center justify-center">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <h2 class="text-[20px] font-bold">Send</h2>
+      </div>
+      <div class="space-y-4 mt-4">
+        <div>
+          <label class="text-[13px] text-phantom-muted mb-1.5 block">Token</label>
+          <select id="send-token-select" class="w-full bg-phantom-card border border-phantom-border rounded-xl px-4 py-3.5 text-[16px] outline-none"></select>
+        </div>
+        <div>
+          <label class="text-[13px] text-phantom-muted mb-1.5 block">Amount</label>
+          <div class="relative">
+            <input id="send-amount" type="number" step="any" min="0" placeholder="0.00" class="w-full bg-phantom-card border border-phantom-border rounded-xl px-4 py-3.5 text-[16px] outline-none pr-20" />
+            <button id="btn-send-max" class="absolute right-3 top-1/2 -translate-y-1/2 text-[13px] font-semibold text-phantom-purple">MAX</button>
+          </div>
+          <div class="flex justify-between mt-1.5 text-[12px] text-phantom-muted">
+            <span id="send-max-hint">Available: —</span>
+            <span id="send-usd-preview">$0.00</span>
+          </div>
+        </div>
+        <div>
+          <label class="text-[13px] text-phantom-muted mb-1.5 block">To address</label>
+          <input id="send-address" type="text" placeholder="@username or wallet address" class="w-full bg-phantom-card border border-phantom-border rounded-xl px-4 py-3.5 text-[15px] outline-none" />
+        </div>
+        <div>
+          <label class="text-[13px] text-phantom-muted mb-1.5 block">Note (optional)</label>
+          <input id="send-note" type="text" placeholder="What's this for?" class="w-full bg-phantom-card border border-phantom-border rounded-xl px-4 py-3.5 text-[15px] outline-none" />
+        </div>
+        <button id="btn-confirm-send" class="w-full mt-6 py-4 rounded-2xl bg-phantom-purple text-phantom-bg font-semibold text-[16px]">Send</button>
+      </div>
+    </div>
+
+    <div id="receive-screen" class="hidden flex-1 overflow-y-auto px-4 pb-32">
+      <div class="flex items-center justify-between py-3">
+        <button id="btn-back-receive" class="w-9 h-9 rounded-full bg-phantom-card border border-phantom-border flex items-center justify-center">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <h2 class="text-[18px] font-bold">Receive</h2>
+        <div class="w-9"></div>
+      </div>
+      <div class="flex bg-phantom-card rounded-full p-1 mb-6">
+        <button id="recv-tab-tokens" class="flex-1 py-2 rounded-full text-[14px] font-semibold bg-phantom-border text-white">Tokens</button>
+        <button id="recv-tab-cash" class="flex-1 py-2 rounded-full text-[14px] font-medium text-phantom-muted">Cash</button>
+      </div>
+      <div id="receive-tokens-panel" class="flex flex-col items-center">
+        <button id="btn-change-network" class="mb-5 flex items-center gap-2 px-4 py-2 rounded-full bg-phantom-card border border-phantom-border text-[14px]">
+          <span class="w-5 h-5 rounded-full bg-gradient-to-br from-purple-400 to-green-400"></span>
+          <span id="recv-network-label">Solana</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div id="receive-qr" class="w-52 h-52 rounded-2xl bg-white flex items-center justify-center mb-4 relative">
+          <div class="w-12 h-12 rounded-xl bg-black flex items-center justify-center">
+            <svg width="28" height="28" viewBox="0 0 128 128"><defs><linearGradient id="sol" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#00FFA3"/><stop offset="100%" stop-color="#DC1FFF"/></linearGradient></defs><path fill="url(#sol)" d="M20 90h70l18-18H38zM20 56h70l18-18H38zM38 38l18-18h70L108 38z"/></svg>
+          </div>
+        </div>
+        <p class="text-[12px] text-phantom-muted mb-1">Solana address</p>
+        <p id="receive-address" class="text-[13px] font-mono text-center break-all px-2 mb-4 text-phantom-lavender">5t54YT...mudSwY</p>
+        <button id="btn-copy-address" class="w-full max-w-xs py-3.5 rounded-2xl bg-phantom-purple text-phantom-bg font-semibold mb-3">Copy Address</button>
+        <button class="w-full max-w-xs py-3 rounded-2xl border border-phantom-border text-[14px] font-medium mb-6">Share</button>
+        <div class="w-full max-w-xs space-y-2 border-t border-phantom-border pt-5">
+          <p class="text-[13px] text-phantom-muted text-center">Simulate incoming</p>
+          <select id="receive-token-select" class="w-full bg-phantom-card border border-phantom-border rounded-xl px-3 py-2.5 text-[14px]"></select>
+          <input id="receive-amount" type="number" step="any" min="0" placeholder="Amount" class="w-full bg-phantom-card border border-phantom-border rounded-xl px-3 py-2.5 text-center text-[15px]" />
+          <button id="btn-simulate-receive" class="w-full py-3 rounded-2xl bg-phantom-card border border-phantom-border font-semibold text-[14px]">Simulate Receive</button>
+        </div>
+      </div>
+      <div id="receive-cash-panel" class="hidden flex flex-col items-center">
+        <div class="w-52 h-52 rounded-2xl bg-white flex items-center justify-center mb-4 text-4xl">💵</div>
+        <p class="text-[13px] text-phantom-muted mb-1">Stablecoins · Arrives as Cash</p>
+        <button class="w-full max-w-xs py-3.5 rounded-2xl bg-phantom-purple text-phantom-bg font-semibold mb-3 mt-4">Copy Address</button>
+        <button class="w-full max-w-xs py-3 rounded-2xl border border-phantom-border text-[14px] font-medium">Share</button>
+      </div>
+    </div>
+
+    <div id="trade-screen" class="hidden flex-1 overflow-y-auto px-4 pb-32">
+      <div class="flex items-center justify-between py-3">
+        <button id="btn-back-trade" class="w-9 h-9 rounded-full bg-phantom-card border border-phantom-border flex items-center justify-center">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <h2 class="text-[18px] font-bold">Trade</h2>
+        <div class="w-9"></div>
+      </div>
+      <div class="bg-phantom-card rounded-2xl p-4 mb-3 border border-phantom-border">
+        <p class="text-[13px] text-phantom-muted mb-2">You Pay</p>
+        <div class="flex items-center justify-between">
+          <input id="trade-pay-amount" type="number" step="any" min="0" value="0" class="bg-transparent text-[28px] font-bold w-1/2 outline-none" />
+          <select id="trade-pay-token" class="bg-phantom-bg border border-phantom-border rounded-full px-3 py-1.5 text-[14px] font-semibold"></select>
+        </div>
+      </div>
+      <div class="flex justify-center -my-1 relative z-10">
+        <button id="btn-trade-flip" class="w-10 h-10 rounded-full bg-phantom-purple text-phantom-bg flex items-center justify-center shadow-lg">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>
+        </button>
+      </div>
+      <div class="bg-phantom-card rounded-2xl p-4 mb-4 border border-phantom-border">
+        <p class="text-[13px] text-phantom-muted mb-2">You Receive</p>
+        <div class="flex items-center justify-between">
+          <input id="trade-recv-amount" type="number" step="any" min="0" value="0" class="bg-transparent text-[28px] font-bold w-1/2 outline-none" readonly />
+          <select id="trade-recv-token" class="bg-phantom-bg border border-phantom-border rounded-full px-3 py-1.5 text-[14px] font-semibold"></select>
+        </div>
+      </div>
+      <div class="flex gap-2 mb-4">
+        <button class="trade-pct flex-1 py-2 rounded-full bg-phantom-card border border-phantom-border text-[13px] font-medium" data-pct="25">25%</button>
+        <button class="trade-pct flex-1 py-2 rounded-full bg-phantom-card border border-phantom-border text-[13px] font-medium" data-pct="50">50%</button>
+        <button class="trade-pct flex-1 py-2 rounded-full bg-phantom-card border border-phantom-border text-[13px] font-medium" data-pct="100">Sell all</button>
+      </div>
+      <button id="btn-confirm-trade" class="w-full py-4 rounded-2xl bg-phantom-purple text-phantom-bg font-semibold text-[16px]">Review Trade</button>
+      <p id="trade-status" class="text-center text-[13px] text-phantom-muted mt-3"></p>
+    </div>
+
+    <div id="buy-screen" class="hidden flex-1 overflow-y-auto px-4 pb-32">
+      <div class="flex items-center gap-3 py-3">
+        <button id="btn-back-buy" class="w-9 h-9 rounded-full bg-phantom-card border border-phantom-border flex items-center justify-center">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <h2 class="text-[20px] font-bold">Buy</h2>
+      </div>
+      <div class="space-y-4 mt-4">
+        <div>
+          <label class="text-[13px] text-phantom-muted mb-1.5 block">Token</label>
+          <select id="buy-token-select" class="w-full bg-phantom-card border border-phantom-border rounded-xl px-4 py-3.5 text-[16px] outline-none"></select>
+        </div>
+        <div>
+          <label class="text-[13px] text-phantom-muted mb-1.5 block">Amount (USD)</label>
+          <div class="relative">
+            <input id="buy-usd-amount" type="number" step="any" min="0" placeholder="0.00" class="w-full bg-phantom-card border border-phantom-border rounded-xl px-4 py-3.5 text-[16px] outline-none pr-16" />
+            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-[14px] text-phantom-muted font-medium">USD</span>
+          </div>
+          <div class="flex justify-between mt-1.5 text-[12px] text-phantom-muted">
+            <span id="buy-token-preview">≈ 0.00 SOL</span>
+            <span>Min $10</span>
+          </div>
+        </div>
+        <div>
+          <label class="text-[13px] text-phantom-muted mb-1.5 block">Payment method</label>
+          <div class="bg-phantom-card border border-phantom-border rounded-xl px-4 py-3.5 flex items-center gap-3">
+            <div class="w-10 h-7 rounded bg-gradient-to-r from-blue-600 to-blue-400 flex items-center justify-center text-[10px] font-bold text-white">VISA</div>
+            <div class="flex-1">
+              <p class="text-[15px] font-medium">•••• 4242</p>
+              <p class="text-[12px] text-phantom-muted">Expires 12/28</p>
+            </div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+        </div>
+        <div class="flex gap-2 mt-2">
+          <button class="buy-quick flex-1 py-2.5 rounded-xl bg-phantom-card border border-phantom-border text-[13px] font-medium" data-usd="50">$50</button>
+          <button class="buy-quick flex-1 py-2.5 rounded-xl bg-phantom-card border border-phantom-border text-[13px] font-medium" data-usd="100">$100</button>
+          <button class="buy-quick flex-1 py-2.5 rounded-xl bg-phantom-card border border-phantom-border text-[13px] font-medium" data-usd="250">$250</button>
+          <button class="buy-quick flex-1 py-2.5 rounded-xl bg-phantom-card border border-phantom-border text-[13px] font-medium" data-usd="500">$500</button>
+        </div>
+        <button id="btn-confirm-buy" class="w-full mt-6 py-4 rounded-2xl bg-phantom-purple text-phantom-bg font-semibold text-[16px]">Buy now</button>
+      </div>
+    </div>
+
+    <div class="absolute bottom-0 left-0 right-0 z-30 px-3 pb-[calc(0.6rem+env(safe-area-inset-bottom))] pt-2 bg-gradient-to-t from-phantom-bg via-phantom-bg/95 to-transparent">
+      <div class="flex items-center gap-2 max-w-md mx-auto">
+        <div class="flex-1 flex items-center gap-2 bg-phantom-card border border-phantom-border rounded-full px-4 py-2.5">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b8b9a" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="text" placeholder="Search Phantom" class="bg-transparent flex-1 text-[14px] outline-none placeholder:text-phantom-muted" id="search-input" />
+        </div>
+        <button id="btn-fab" class="w-12 h-12 rounded-full bg-phantom-purple text-phantom-bg flex items-center justify-center shadow-lg active:scale-95 transition shrink-0">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="fab-menu" class="hidden absolute bottom-24 right-4 z-40 flex flex-col gap-3 items-end">
+      <button class="fab-action flex items-center gap-3" data-action="send">
+        <span class="text-[14px] font-medium bg-phantom-card px-3 py-1.5 rounded-full border border-phantom-border">Send</span>
+        <div class="w-11 h-11 rounded-full bg-phantom-purple text-phantom-bg flex items-center justify-center">→</div>
+      </button>
+      <button class="fab-action flex items-center gap-3" data-action="receive">
+        <span class="text-[14px] font-medium bg-phantom-card px-3 py-1.5 rounded-full border border-phantom-border">Receive</span>
+        <div class="w-11 h-11 rounded-full bg-phantom-purple text-phantom-bg flex items-center justify-center">+</div>
+      </button>
+      <button class="fab-action flex items-center gap-3" data-action="buy">
+        <span class="text-[14px] font-medium bg-phantom-card px-3 py-1.5 rounded-full border border-phantom-border">Add Cash</span>
+        <div class="w-11 h-11 rounded-full bg-phantom-purple text-phantom-bg flex items-center justify-center">$</div>
+      </button>
+      <button class="fab-action flex items-center gap-3" data-action="swap">
+        <span class="text-[14px] font-medium bg-phantom-card px-3 py-1.5 rounded-full border border-phantom-border">Trade</span>
+        <div class="w-11 h-11 rounded-full bg-phantom-purple text-phantom-bg flex items-center justify-center">⇄</div>
+      </button>
+    </div>
+  </div>
+
+  <!-- Token Detail Modal -->
+  <div id="modal-token" class="fixed inset-0 z-40 hidden bg-phantom-bg">
+    <div class="max-w-md mx-auto h-full flex flex-col">
+      <header class="flex items-center justify-between px-4 pt-3 pb-2">
+        <button id="btn-back-token" class="w-9 h-9 rounded-full bg-phantom-card flex items-center justify-center border border-phantom-border">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <span id="token-detail-name" class="text-[16px] font-semibold">SOL</span>
+        <div class="w-9"></div>
+      </header>
+      <div class="flex-1 overflow-y-auto px-4 pb-8">
+        <div class="text-center pt-4 pb-4">
+          <img id="token-detail-logo" src="" alt="" class="w-14 h-14 mx-auto rounded-full mb-3" />
+          <p id="token-detail-amount" class="text-[26px] font-bold">0 SOL</p>
+          <p id="token-detail-usd" class="text-phantom-muted text-[15px] mt-1">$0.00</p>
+          <div id="token-detail-change" class="mt-2 text-[14px] font-medium text-phantom-green">+0.00%</div>
+        </div>
+        <div class="h-44 mb-5"><canvas id="token-chart"></canvas></div>
+        <div class="grid grid-cols-2 gap-3">
+          <button id="btn-token-send" class="py-3.5 rounded-2xl bg-phantom-purple text-phantom-bg font-semibold">Send</button>
+          <button id="btn-token-receive" class="py-3.5 rounded-2xl bg-phantom-card border border-phantom-border font-semibold">Receive</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Balances -->
+  <div id="modal-edit" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" id="modal-edit-backdrop"></div>
+    <div class="absolute bottom-0 left-0 right-0 max-w-md mx-auto bg-phantom-surface rounded-t-3xl max-h-[85dvh] flex flex-col">
+      <div class="flex items-center justify-between px-5 pt-5 pb-3">
+        <h3 class="text-[18px] font-semibold">Edit Balances</h3>
+        <button id="btn-close-edit" class="w-8 h-8 rounded-full bg-phantom-card flex items-center justify-center">✕</button>
+      </div>
+      <div id="edit-token-list" class="flex-1 overflow-y-auto px-5 pb-4 space-y-1"></div>
+      <div class="px-5 pb-6 pt-2 border-t border-phantom-border">
+        <button id="btn-save-balances" class="w-full py-3.5 rounded-2xl bg-phantom-purple text-phantom-bg font-semibold text-[16px]">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- History Editor -->
+  <div id="modal-history-edit" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+    <div class="absolute bottom-0 left-0 right-0 max-w-md mx-auto bg-phantom-surface rounded-t-3xl max-h-[90dvh] flex flex-col">
+      <div class="flex items-center justify-between px-5 pt-5 pb-3">
+        <h3 class="text-[18px] font-semibold">Edit Activity</h3>
+        <button id="btn-close-history-edit" class="w-8 h-8 rounded-full bg-phantom-card flex items-center justify-center">✕</button>
+      </div>
+      <div class="px-5 pb-3 space-y-2 border-b border-phantom-border">
+        <div class="grid grid-cols-2 gap-2">
+          <select id="hist-type" class="bg-phantom-card border border-phantom-border rounded-xl px-3 py-2.5 text-[14px]">
+            <option value="received">Received</option><option value="sent">Sent</option><option value="swap">Swap</option><option value="buy">Buy</option>
+          </select>
+          <input id="hist-symbol" placeholder="Symbol (SOL)" class="bg-phantom-card border border-phantom-border rounded-xl px-3 py-2.5 text-[14px]" />
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <input id="hist-amount" type="number" step="any" placeholder="Amount" class="bg-phantom-card border border-phantom-border rounded-xl px-3 py-2.5 text-[14px]" />
+          <input id="hist-counterparty" placeholder="From / To" class="bg-phantom-card border border-phantom-border rounded-xl px-3 py-2.5 text-[14px]" />
+        </div>
+        <button id="btn-add-history" class="w-full py-2.5 rounded-xl bg-phantom-purple text-phantom-bg font-semibold text-[14px]">Add Entry</button>
+      </div>
+      <div id="history-edit-list" class="flex-1 overflow-y-auto px-5 py-3"></div>
+    </div>
+  </div>
+
+  <!-- Settings -->
+  <div id="modal-settings" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" id="modal-settings-backdrop"></div>
+    <div class="absolute bottom-0 left-0 right-0 max-w-md mx-auto bg-phantom-surface rounded-t-3xl max-h-[80dvh] flex flex-col">
+      <div class="flex items-center justify-between px-5 pt-5 pb-3">
+        <h3 class="text-[18px] font-semibold">Settings</h3>
+        <button id="btn-close-settings" class="w-8 h-8 rounded-full bg-phantom-card flex items-center justify-center">✕</button>
+      </div>
+      <div class="px-5 pb-8 space-y-1">
+        <div class="px-4 py-3">
+          <label class="text-[13px] text-phantom-muted">Wallet name</label>
+          <input id="settings-account-name" class="w-full mt-1 bg-phantom-card border border-phantom-border rounded-xl px-3 py-2.5 text-[15px]" />
+        </div>
+        <button id="btn-save-settings" class="w-full text-left px-4 py-3.5 rounded-xl hover:bg-phantom-card transition font-medium text-phantom-purple">Save name</button>
+        <a class='block w-full text-left px-4 py-3.5 rounded-xl hover:bg-phantom-card transition' href='/trust'>Switch to Trust Wallet skin →</a>
+        <a class='block w-full text-left px-4 py-3.5 rounded-xl hover:bg-phantom-card transition' href='/paypal'>Switch to PayPal skin →</a>
+        <button id="btn-open-history-editor" class="w-full text-left px-4 py-3.5 rounded-xl hover:bg-phantom-card transition">Edit Activity History</button>
+        <button id="btn-reset-demo" class="w-full text-left px-4 py-3.5 rounded-xl hover:bg-phantom-card transition">Reset to Demo Portfolio</button>
+        <button id="btn-export-json" class="w-full text-left px-4 py-3.5 rounded-xl hover:bg-phantom-card transition">Export Portfolio (JSON)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Network picker -->
+  <div id="modal-network" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/70" id="modal-network-backdrop"></div>
+    <div class="absolute bottom-0 left-0 right-0 max-w-md mx-auto bg-phantom-surface rounded-t-3xl max-h-[70dvh] overflow-y-auto">
+      <div class="flex items-center justify-between px-5 pt-5 pb-3">
+        <h3 class="text-[17px] font-semibold">Change Network</h3>
+        <button id="btn-close-network" class="w-8 h-8 rounded-full bg-phantom-card flex items-center justify-center">✕</button>
+      </div>
+      <div id="network-list" class="px-5 pb-8 space-y-1">
+        <button class="network-opt w-full flex items-center gap-3 py-3.5 text-left" data-net="Solana"><span class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 to-green-400"></span> Solana</button>
+        <button class="network-opt w-full flex items-center gap-3 py-3.5 text-left" data-net="Ethereum"><span class="w-8 h-8 rounded-full bg-blue-500"></span> Ethereum</button>
+        <button class="network-opt w-full flex items-center gap-3 py-3.5 text-left" data-net="Bitcoin"><span class="w-8 h-8 rounded-full bg-orange-500"></span> Bitcoin</button>
+        <button class="network-opt w-full flex items-center gap-3 py-3.5 text-left" data-net="Base"><span class="w-8 h-8 rounded-full bg-blue-600"></span> Base</button>
+        <button class="network-opt w-full flex items-center gap-3 py-3.5 text-left" data-net="Polygon"><span class="w-8 h-8 rounded-full bg-purple-600"></span> Polygon</button>
+        <button class="network-opt w-full flex items-center gap-3 py-3.5 text-left" data-net="Sui"><span class="w-8 h-8 rounded-full bg-cyan-400"></span> Sui</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/prices.js"></script>
+  <script src="js/balances.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/skeletons.js"></script>
+  <script src="js/app.js"></script>
+  <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});</script>
+</body>
+</html>

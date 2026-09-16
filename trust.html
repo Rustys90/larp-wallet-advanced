@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f111a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>Larp Wallet – Trust</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/trust.css" />
+  <link rel="stylesheet" href="css/skeletons.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body class="trust-skin overflow-hidden">
+  <div id="status-bar" class="status-bar flex justify-between items-center px-5 pt-[max(0.6rem,env(safe-area-inset-top))] pb-1 text-[13px] font-semibold select-none">
+    <span id="status-time">9:41</span>
+    <div class="flex items-center gap-1.5">
+      <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 2.4c2.1 0 4 .9 5.4 2.4l-1.5 1.2A5.5 5.5 0 008 4.2c-1.5 0-2.9.6-3.9 1.6L2.6 4.8A7.5 7.5 0 018 2.4zM8 0c3.3 0 6.3 1.4 8.4 3.7l-1.5 1.2A9.5 9.5 0 008 1.7 9.5 9.5 0 001.1 4.9L-.4 3.7A11.5 11.5 0 018 0zm0 4.8c1.2 0 2.3.5 3.1 1.3L8 9.3 4.9 6.1A4.3 4.3 0 018 4.8z"/></svg>
+      <div class="flex items-center ml-0.5">
+        <div class="w-[22px] h-[11px] border-[1.5px] border-white/90 rounded-[3px] relative p-[1.5px]">
+          <div class="battery-fill h-full bg-white rounded-[1px]" style="width:78%"></div>
+        </div>
+        <div class="w-[1.5px] h-[4px] bg-white/70 rounded-r-sm ml-[1px]"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-shell relative mx-auto max-w-md h-[100dvh] flex flex-col">
+    <!-- Header -->
+    <header class="flex items-center justify-between px-4 pt-2 pb-3">
+      <button id="btn-wallet-picker" class="flex items-center gap-2 bg-[#1c2030] border border-[#2a2f42] rounded-full pl-1.5 pr-3 py-1.5 active:scale-95 transition">
+        <div class="w-7 h-7 rounded-full bg-[#3375BB] flex items-center justify-center">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+        </div>
+        <span id="trust-wallet-name" class="text-[14px] font-semibold">Main Wallet 1</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8b92a8" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="flex items-center gap-2">
+        <button id="btn-trust-history" class="w-9 h-9 rounded-full bg-[#1c2030] border border-[#2a2f42] flex items-center justify-center">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </button>
+        <button id="btn-trust-settings" class="w-9 h-9 rounded-full bg-[#1c2030] border border-[#2a2f42] flex items-center justify-center">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="trust-main" class="flex-1 overflow-y-auto px-4 pb-28">
+      <!-- Balance -->
+      <section class="text-center pt-2 pb-5">
+        <p class="text-[#8b92a8] text-[13px] mb-1">Total Balance</p>
+        <h1 id="trust-total" class="text-[36px] font-bold tracking-tight">$0.00</h1>
+        <div id="trust-change" class="mt-1 text-[14px] text-green-500">+$0.00</div>
+      </section>
+
+      <!-- Action cards -->
+      <div class="grid grid-cols-4 gap-2 mb-6">
+        <button class="trust-action-item" data-action="receive">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4B8BFF" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M12 8v8M8 12h8"/></svg>
+          <span>Receive</span>
+        </button>
+        <button class="trust-action-item" data-action="send">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4B8BFF" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <span>Send</span>
+        </button>
+        <button class="trust-action-item" data-action="swap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4B8BFF" stroke-width="1.8"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>
+          <span>Swap</span>
+        </button>
+        <button class="trust-action-item" data-action="buy">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4B8BFF" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+          <span>Buy</span>
+        </button>
+      </div>
+
+      <!-- Tokens -->
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-[16px] font-semibold">Tokens</h2>
+        <button id="btn-trust-edit" class="text-[13px] font-medium text-[#4B8BFF]">Edit</button>
+      </div>
+      <div id="trust-token-list" class="mb-6"></div>
+
+      <!-- Perps teaser -->
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-[16px] font-semibold">Perps</h2>
+        <span class="text-[13px] text-[#8b92a8]">View all ›</span>
+      </div>
+      <div class="grid grid-cols-2 gap-3 mb-8">
+        <div class="trust-card p-3">
+          <div class="flex items-center gap-2 mb-2">
+            <img src="https://assets.coingecko.com/coins/images/1/small/bitcoin.png" class="w-6 h-6 rounded-full" alt="" />
+            <span class="font-semibold text-[14px]">BTC</span>
+            <span class="text-[11px] text-[#8b92a8]">40x</span>
+          </div>
+          <p class="text-[12px] text-[#8b92a8]">$2.77B Vol</p>
+        </div>
+        <div class="trust-card p-3">
+          <div class="flex items-center gap-2 mb-2">
+            <img src="https://assets.coingecko.com/coins/images/279/small/ethereum.png" class="w-6 h-6 rounded-full" alt="" />
+            <span class="font-semibold text-[14px]">ETH</span>
+            <span class="text-[11px] text-[#8b92a8]">25x</span>
+          </div>
+          <p class="text-[12px] text-[#8b92a8]">$1.85B Vol</p>
+        </div>
+      </div>
+
+          </main>
+
+    <!-- SEND SCREEN -->
+    <div id="trust-send-screen" class="hidden flex-1 overflow-y-auto px-4 pb-28">
+      <div class="flex items-center gap-3 py-3">
+        <button id="btn-trust-back-send" class="w-9 h-9 rounded-full bg-[#1c2030] border border-[#2a2f42] flex items-center justify-center">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <h2 class="text-[20px] font-bold">Send</h2>
+      </div>
+      <div class="space-y-4 mt-4">
+        <div>
+          <label class="text-[13px] text-[#8b92a8] mb-1.5 block">Token</label>
+          <select id="trust-send-token" class="w-full bg-[#1c2030] border border-[#2a2f42] rounded-xl px-4 py-3.5 text-[16px] outline-none"></select>
+        </div>
+        <div>
+          <label class="text-[13px] text-[#8b92a8] mb-1.5 block">Amount</label>
+          <input id="trust-send-amount" type="number" step="any" min="0" placeholder="0.00" class="w-full bg-[#1c2030] border border-[#2a2f42] rounded-xl px-4 py-3.5 text-[16px] outline-none" />
+          <p id="trust-send-hint" class="text-[12px] text-[#8b92a8] mt-1.5">Available: —</p>
+        </div>
+        <div>
+          <label class="text-[13px] text-[#8b92a8] mb-1.5 block">To address</label>
+          <input id="trust-send-address" type="text" placeholder="Wallet address or ENS" class="w-full bg-[#1c2030] border border-[#2a2f42] rounded-xl px-4 py-3.5 text-[15px] outline-none" />
+        </div>
+        <button id="btn-trust-confirm-send" class="w-full mt-6 py-4 rounded-2xl bg-[#4B8BFF] text-white font-semibold text-[16px]">Send</button>
+      </div>
+    </div>
+
+    <!-- RECEIVE SCREEN -->
+    <div id="trust-receive-screen" class="hidden flex-1 overflow-y-auto px-4 pb-28">
+      <div class="flex items-center gap-3 py-3">
+        <button id="btn-trust-back-receive" class="w-9 h-9 rounded-full bg-[#1c2030] border border-[#2a2f42] flex items-center justify-center">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <h2 class="text-[20px] font-bold">Receive</h2>
+      </div>
+      <div class="flex flex-col items-center mt-6">
+        <div class="w-48 h-48 rounded-2xl bg-white flex items-center justify-center mb-4">
+          <div class="w-16 h-16 rounded-xl bg-[#3375BB] flex items-center justify-center">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+          </div>
+        </div>
+        <p class="text-[12px] text-[#8b92a8] mb-1">Your address</p>
+        <p id="trust-receive-address" class="text-[13px] font-mono text-center break-all px-4 mb-4">0x7a2B...c9F1</p>
+        <button id="btn-trust-copy-addr" class="w-full max-w-xs py-3.5 rounded-2xl bg-[#4B8BFF] text-white font-semibold mb-6">Copy Address</button>
+        <div class="w-full max-w-xs space-y-2 border-t border-[#2a2f42] pt-5">
+          <p class="text-[13px] text-[#8b92a8] text-center">Simulate incoming</p>
+          <select id="trust-receive-token" class="w-full bg-[#1c2030] border border-[#2a2f42] rounded-xl px-3 py-2.5 text-[14px]"></select>
+          <input id="trust-receive-amount" type="number" step="any" min="0" placeholder="Amount" class="w-full bg-[#1c2030] border border-[#2a2f42] rounded-xl px-3 py-2.5 text-center text-[15px]" />
+          <button id="btn-trust-simulate-receive" class="w-full py-3 rounded-2xl bg-[#1c2030] border border-[#2a2f42] font-semibold text-[14px]">Simulate Receive</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SWAP SCREEN -->
+    <div id="trust-swap-screen" class="hidden flex-1 overflow-y-auto px-4 pb-28">
+      <div class="flex items-center gap-3 py-3">
+        <button id="btn-trust-back-swap" class="w-9 h-9 rounded-full bg-[#1c2030] border border-[#2a2f42] flex items-center justify-center">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <h2 class="text-[20px] font-bold">Swap</h2>
+      </div>
+      <div class="bg-[#1c2030] rounded-2xl p-4 mb-3 border border-[#2a2f42] mt-4">
+        <p class="text-[13px] text-[#8b92a8] mb-2">You pay</p>
+        <div class="flex items-center justify-between">
+          <input id="trust-swap-pay-amount" type="number" step="any" min="0" value="0" class="bg-transparent text-[26px] font-bold w-1/2 outline-none" />
+          <select id="trust-swap-pay-token" class="bg-[#0f111a] border border-[#2a2f42] rounded-full px-3 py-1.5 text-[14px] font-semibold"></select>
+        </div>
+      </div>
+      <div class="flex justify-center -my-1 relative z-10">
+        <button id="btn-trust-swap-flip" class="w-10 h-10 rounded-full bg-[#4B8BFF] text-white flex items-center justify-center">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>
+        </button>
+      </div>
+      <div class="bg-[#1c2030] rounded-2xl p-4 mb-4 border border-[#2a2f42]">
+        <p class="text-[13px] text-[#8b92a8] mb-2">You receive</p>
+        <div class="flex items-center justify-between">
+          <input id="trust-swap-recv-amount" type="number" step="any" min="0" value="0" class="bg-transparent text-[26px] font-bold w-1/2 outline-none" readonly />
+          <select id="trust-swap-recv-token" class="bg-[#0f111a] border border-[#2a2f42] rounded-full px-3 py-1.5 text-[14px] font-semibold"></select>
+        </div>
+      </div>
+      <button id="btn-trust-confirm-swap" class="w-full py-4 rounded-2xl bg-[#4B8BFF] text-white font-semibold text-[16px]">Swap</button>
+    </div>
+
+    <!-- BUY SCREEN -->
+    <div id="trust-buy-screen" class="hidden flex-1 overflow-y-auto px-4 pb-28">
+      <div class="flex items-center gap-3 py-3">
+        <button id="btn-trust-back-buy" class="w-9 h-9 rounded-full bg-[#1c2030] border border-[#2a2f42] flex items-center justify-center">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <h2 class="text-[20px] font-bold">Buy with Card</h2>
+      </div>
+      <div class="space-y-4 mt-4">
+        <div>
+          <label class="text-[13px] text-[#8b92a8] mb-1.5 block">Token</label>
+          <select id="trust-buy-token" class="w-full bg-[#1c2030] border border-[#2a2f42] rounded-xl px-4 py-3.5 text-[16px] outline-none"></select>
+        </div>
+        <div>
+          <label class="text-[13px] text-[#8b92a8] mb-1.5 block">Amount (USD)</label>
+          <input id="trust-buy-usd" type="number" step="any" min="0" placeholder="0.00" class="w-full bg-[#1c2030] border border-[#2a2f42] rounded-xl px-4 py-3.5 text-[16px] outline-none" />
+          <p id="trust-buy-preview" class="text-[12px] text-[#8b92a8] mt-1.5">≈ 0.00</p>
+        </div>
+        <div class="bg-[#1c2030] border border-[#2a2f42] rounded-xl px-4 py-3.5 flex items-center gap-3">
+          <div class="w-10 h-7 rounded bg-gradient-to-r from-blue-600 to-blue-400 flex items-center justify-center text-[10px] font-bold text-white">VISA</div>
+          <div class="flex-1">
+            <p class="text-[15px] font-medium">•••• 4242</p>
+            <p class="text-[12px] text-[#8b92a8]">Simulated card</p>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <button class="trust-buy-quick flex-1 py-2.5 rounded-xl bg-[#1c2030] border border-[#2a2f42] text-[13px] font-medium" data-usd="50">$50</button>
+          <button class="trust-buy-quick flex-1 py-2.5 rounded-xl bg-[#1c2030] border border-[#2a2f42] text-[13px] font-medium" data-usd="100">$100</button>
+          <button class="trust-buy-quick flex-1 py-2.5 rounded-xl bg-[#1c2030] border border-[#2a2f42] text-[13px] font-medium" data-usd="250">$250</button>
+        </div>
+        <button id="btn-trust-confirm-buy" class="w-full mt-4 py-4 rounded-2xl bg-[#4B8BFF] text-white font-semibold text-[16px]">Buy now</button>
+              </div>
+    </div>
+
+    <!-- Bottom nav -->
+    <nav class="trust-nav absolute bottom-0 left-0 right-0 px-2 pt-2 pb-[calc(0.6rem+env(safe-area-inset-bottom))]">
+      <div class="flex justify-around items-center max-w-md mx-auto">
+        <button class="trust-nav-item active flex flex-col items-center gap-0.5 py-1 px-3 text-[#4B8BFF]" data-tab="home">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          <span class="text-[10px] font-medium">Home</span>
+        </button>
+        <button class="trust-nav-item flex flex-col items-center gap-0.5 py-1 px-3 text-[#8b92a8]" data-tab="markets">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg>
+          <span class="text-[10px] font-medium">Markets</span>
+        </button>
+        <button class="trust-nav-item flex flex-col items-center gap-0.5 py-1 px-3 text-[#8b92a8]" data-tab="perps">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          <span class="text-[10px] font-medium">Perps</span>
+        </button>
+        <button class="trust-nav-item flex flex-col items-center gap-0.5 py-1 px-3 text-[#8b92a8]" data-tab="search">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <span class="text-[10px] font-medium">Search</span>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Edit modal (shared pattern) -->
+  <div id="trust-modal-edit" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/70" id="trust-edit-backdrop"></div>
+    <div class="absolute bottom-0 left-0 right-0 max-w-md mx-auto bg-[#161926] rounded-t-3xl max-h-[85dvh] flex flex-col">
+      <div class="flex items-center justify-between px-5 pt-5 pb-3">
+        <h3 class="text-[18px] font-semibold">Edit Trust Balances</h3>
+        <button id="btn-trust-close-edit" class="w-8 h-8 rounded-full bg-[#1c2030] flex items-center justify-center">✕</button>
+      </div>
+      <div id="trust-edit-list" class="flex-1 overflow-y-auto px-5 pb-4 space-y-1"></div>
+      <div class="px-5 pb-6 pt-2 border-t border-[#2a2f42]">
+        <button id="btn-trust-save" class="w-full py-3.5 rounded-2xl bg-[#4B8BFF] text-white font-semibold text-[16px]">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings -->
+  <div id="trust-modal-settings" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/70" id="trust-settings-backdrop"></div>
+    <div class="absolute bottom-0 left-0 right-0 max-w-md mx-auto bg-[#161926] rounded-t-3xl max-h-[70dvh] flex flex-col">
+      <div class="flex items-center justify-between px-5 pt-5 pb-3">
+        <h3 class="text-[18px] font-semibold">Settings</h3>
+        <button id="btn-trust-close-settings" class="w-8 h-8 rounded-full bg-[#1c2030] flex items-center justify-center">✕</button>
+      </div>
+      <div class="px-5 pb-8 space-y-1">
+        <a class='block w-full text-left px-4 py-3.5 rounded-xl hover:bg-[#1c2030] transition' href='/'>← Switch to Phantom skin</a>
+        <a class='block w-full text-left px-4 py-3.5 rounded-xl hover:bg-[#1c2030] transition' href='/paypal'>← Switch to PayPal skin</a>
+        <button id="btn-trust-reset" class="w-full text-left px-4 py-3.5 rounded-xl hover:bg-[#1c2030] transition">Reset Trust balances</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/prices.js"></script>
+  <script src="js/balances.js"></script>
+  <script src="js/skeletons.js"></script>
+  <script src="js/trust.js"></script>
+</body>
+</html>
