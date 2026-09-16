@@ -1,0 +1,19 @@
+/* Phantom-specific overrides & polish */
+
+body {
+  background: #0d0d0f;
+}
+
+.action-btn .bg-phantom-purple {
+  box-shadow: 0 0 20px rgba(171, 159, 242, 0.25);
+}
+
+@media (hover: hover) {
+  .token-row:hover {
+    background: #1c1c21;
+  }
+}
+
+#token-chart {
+  max-height: 180px;
+}
